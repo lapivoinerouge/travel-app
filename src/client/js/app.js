@@ -5,25 +5,23 @@ let apiKey = 'c350e001f2ba2c2dfda4e0abef8cc9dc';
 function performAction(event) {
     event.preventDefault();
 
-    console.log("Hello");
     const zip = document.getElementById('zip').value;
     const userResponse = document.getElementById('feelings').value;
     getApiData(baseURL, zip, userResponse, apiKey)
         .then(function(data) {
-            postWeather('/add', {temperature: data.temperature, date: data.date, userResponse: data.userResponse})
+            postWeather('http://localhost:8000/add', {temperature: data.temperature, date: data.date, userResponse: data.userResponse})
         })
         .then(function(data) {
-            getWeather('/all')
+            getWeather('http://localhost:8000/all')
         });
 };
 
 // get data from weather API
 async function getApiData(url, zip, response, key) {
-    const res = await fetch(url+zip+'&appid='+key);
-    const d = new Date();
-    const date = d.getMonth()+"-"+d.getDay()+"-"+d.getFullYear();
-
     try {
+        const res = await fetch(url+zip+'&appid='+key);
+        const d = new Date();
+        const date = d.getMonth()+"-"+d.getDay()+"-"+d.getFullYear();
         const weather = await res.json();
         const data = {
             temperature: weather.main.temp,
@@ -49,6 +47,7 @@ async function postWeather(url = '', data = {}) {
 
     try {
         const newData = await res.json();
+        console.log("Hello");
         return newData;
     } catch(error) {
         console.log('error', error);
@@ -60,6 +59,7 @@ async function getWeather(url = '') {
     const res = await fetch(url);
     try {
         const resJson = await res.json();
+    
         document.getElementById('temp').innerHTML = resJson[resJson.length-1].temperature;
         document.getElementById('date').innerHTML = resJson[resJson.length-1].date;
         document.getElementById('content').innerHTML = resJson[resJson.length-1].userResponse;
