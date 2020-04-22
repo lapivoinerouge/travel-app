@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TITLE</title>
+  <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body>
+<div id="app">
+  <div class="holder headline">
+    HEADER
+  </div>
+  <div class ="holder form" onsubmit="return Client.handleSubmit(event)">
+    <label for="zip">LABEL 1</label>
+    <input type="text" id="zip" placeholder="enter here...">
+    <label for="feelings">LABEL 2</label>
+    <textarea class="myInput" id="feelings" placeholder="enter here..." rows="4" cols="50"></textarea>
+    <button id="generate" type="submit"onclick="return Client.performAction(event)" onsubmit="return Client.performAction(event)"> SUBMIT </button>
+  </div>
+
+  <div class ="holder entry">
+    <div class="title">RESULTS:</div>
+    <div id="entryHolder">
+      <div id="date"></div> 
+      <div id="temp"></div>
+      <div id="content"></div>
+    </div>
+  </div>
+</div>
+
+<script src="../../../dist/main.js" type="text/javascript"></script>
+
+</body>
+</html>
