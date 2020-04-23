@@ -1,142 +1,100 @@
 body{
-    background: #fffff8;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #71CACE;
+    background-size: 40em;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position-y: 100px;
+    background-image: url(../media/holiday.jpg);
+    // for now
+    height: 300vh;
 }
 
-#app{
+#form-container {
+    width: 45vw;
+    margin-left: 49vw;
+    margin-top: 50px;
     display: grid;
-    grid-template-rows: 100px 200px 200px;
+    grid-template-rows: 30px 50px;
+    grid-gap: 10px;
     grid-template-areas:
-    "hd hd sd"
-    "zp zp sd"
-    "fl fl fl";
-    height: 97vh;
-    background: #f23557;
+    "tl tm tr"
+    "bl bm br";
+}
+
+label {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 25px;
+    color: #F15757;
+
+    &#city-label {
+        grid-area: tl;
+    }
+
+    &#date-label {
+        grid-area: tm;
+    }
+}
+
+input {
+    height: 40px;
+    width: 200px;
+    background: #fff;
     color: #f0d43a;
-    justify-content: center;
-    grid-gap: 1em;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 25px;
+    padding: 5px;
+
+    &#city {
+        grid-area: bl;
+    }
+
+    &#trip-date {
+        grid-area: bm;
+    }
 }
 
-.zip {
-    grid-area: zp;
-    padding-top: 50px;
+#generate {
+    grid-area: br;
+    height: 50px;
+    margin-left: -20px;
+    margin-top: 5px;
+    opacity: 0.9;
+
+    &:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
 }
 
-.feel {
-    grid-area: fl;
-}
-
-.entry{
-    grid-area: sd;
-    height: auto;
-    position: absolute;
-    top: 180px;
-    left: 700px;
-}
-
-#entryholder {
-    background-color:#22b2da;
+::placeholder { /* Firefox, Chrome, Opera */ 
+    font-family: 'Shadows Into Light', cursive;
     color: #f0d43a;
-    height: auto;
-    width: auto;
+} 
+
+
+//RESULTS for tests
+#results {
+    position: fixed;
+    top: 200px;
+    left: 40px;
+    display: none;
 }
 
 #date{
     font-size: 15px;
     padding: 10px;
-    background-color:#22b2da;
+    background-color:green;
 }
 
 #temp{
     font-size: 15px;
     padding: 10px;
-    background-color:#22b2da;
+    background-color:yellow;
 }
 
 #content{
     font-size: 15px;
     padding: 10px;
-    background-color:#22b2da;
+    background-color:red;
 }
-
-.headline {
-    grid-area: hd;
-    font-size: 50px;
-    padding-top: 30px;
-}
-
-.title{
-    font-size: 27px;
-}
-
-/*  Basic Styling To Override Default For Basic HTML Elements */
-label{
-    display:block;
-    font-size: 27px;
-}
-
-input{
-    display:block;
-    height: 60px;
-    width: 320px;
-    background-color:#22b2da;
-    color: #f0d43a;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
-    border: none;
-    padding: 10px;
-}
-
-button{
-    width: 300px;
-    height: 100px;
-    background-color: #3b4a6b;
-    position: relative;
-    top: -50px;
-    left: 60px;
-    color: #f0d43a;
-    font-size: 26px;
-    font-family: 'Oswald', sans-serif;
-    border: none;
-    box-shadow: 2px 4px 5px #444;
-}
-
-h1{
-    font-size: 36px;
-}
-
-textarea{
-    background-color:#22b2da;
-    color: #f0d43a;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
-    padding: 10px;
-}
-
-/* Reset style for HTML element on active to have no border*/
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
-}
-
-/* Style for Placeholder Text*/
-::placeholder { /* Firefox, Chrome, Opera */ 
-    color: #f0d43a; 
-    font-family: 'Oswald', sans-serif;
-
-} 
-  
-:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-    color: #f0d43a; 
-    font-family: 'Oswald', sans-serif;
-
-} 
-  
-::-ms-input-placeholder { /* Microsoft Edge */ 
-    color: #f0d43a; 
-    font-family: 'Oswald', sans-serif;
-} 
+//END OF RESULTS

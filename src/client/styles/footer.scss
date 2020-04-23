@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+#footer {
+    color: #fff;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 10px;
+    margin: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 30px;
+    position: fixed;
+    display: flex;
+
+    p {
+        margin: auto;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+}

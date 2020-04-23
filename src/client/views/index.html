@@ -2,32 +2,41 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>TITLE</title>
+  <title>Travel Planner</title>
   <link rel="stylesheet" href="./styles/style.scss">
+  <link rel="stylesheet" href="./styles/header.scss">
+  <link rel="stylesheet" href="./styles/footer.scss">
 </head>
 
 <body>
-<div id="app">
-  <div class="holder headline">
-    HEADER
-  </div>
-  <div id ="form" class ="holder form">
-    <label for="zip">LABEL 1</label>
-    <input type="text" id="city" placeholder="enter here...">
-    <label for="feelings">LABEL 2</label>
-    <textarea class="myInput" id="feelings" placeholder="enter here..." rows="4" cols="50"></textarea>
-    <button id="generate" type="submit"> SUBMIT </button>
+
+  <header id="header">
+    <span id="title">Travel Planner</span>
+  </header>
+
+  <div id="content-container">
+    <div id="form-container">
+      <label for="city" id="city-label">where:</label>
+      <input type="text" id="city" placeholder="Paris">
+      <label for="trip-date" id="date-label">when:</label>
+      <input type="date" id="trip-date"></textarea>
+      <img src="../../../dist/3c3423d1896bddee963f8bd4cd293662.png" id="generate">
+      <!--<button id="generate" type="submit"> SAVE </button>-->
+    </div>
+
+      <div id="results">
+        <div class="title">RESULTS:</div>
+        <div id="entryholder">
+          <div id="date"></div> 
+          <div id="temp"></div>
+          <div id="content"></div>
+        </div>
+      </div>
   </div>
 
-  <div class ="holder entry">
-    <div class="title">RESULTS:</div>
-    <div id="entryHolder">
-      <div id="date"></div> 
-      <div id="temp"></div>
-      <div id="content"></div>
-    </div>
-  </div>
-</div>
+<footer id="footer">
+  <p>Background <a href="http://www.freepik.com">designed by Freepik</a></p>
+</footer>
 
 <script src="../../../dist/main.js" type="text/javascript"></script>
 

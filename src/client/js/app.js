@@ -3,8 +3,6 @@ let geoUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
 let geoUser = 'lapivoinerouge';
 
 function init() {
-    document.getElementById("form").addEventListener("submit", performAction);
-    document.getElementById("generate").addEventListener("submit", performAction);
     document.getElementById("generate").addEventListener("click", performAction);
 }
 
