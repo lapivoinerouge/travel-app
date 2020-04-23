@@ -2,6 +2,12 @@
 let baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 let apiKey = 'c350e001f2ba2c2dfda4e0abef8cc9dc';
 
+function init() {
+    document.getElementById("form").addEventListener("submit", performAction);
+    document.getElementById("generate").addEventListener("submit", performAction);
+    document.getElementById("generate").addEventListener("click", performAction);
+}
+
 function performAction(event) {
     event.preventDefault();
 
@@ -72,5 +78,6 @@ export {
     performAction,
     getApiData,
     postWeather,
-    getWeather
+    getWeather,
+    init
 }
