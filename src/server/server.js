@@ -3,7 +3,7 @@ const dotenv= require('dotenv');
 dotenv.config();
 
 // Setup empty JS object to act as endpoint for all routes
-projectData = [];
+trips = [];
 
 // Require Express to run server and routes
 const express = require('express');
@@ -32,7 +32,7 @@ const server = app.listen(port, function() {
 
 //GET route
 app.get('/all', function(req, res) {
-    res.send(projectData);
+    res.send(trips);
 });
 
 //POST route
@@ -40,9 +40,8 @@ app.post('/add', function(req, res) {
     let newData = req.body;
     let newEntry = {
         latitude: newData.latitude,
-        longitude: newData.longitude,
-        countryCode: newData.countryCode
+        longitude: newData.longitude
     };
     console.log(newEntry);
-    projectData.push(newEntry);
+    trips.push(newEntry);
 });
