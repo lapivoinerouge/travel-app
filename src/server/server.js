@@ -1,3 +1,7 @@
+//dotenv
+const dotenv= require('dotenv');
+dotenv.config();
+
 // Setup empty JS object to act as endpoint for all routes
 projectData = [];
 
@@ -35,9 +39,10 @@ app.get('/all', function(req, res) {
 app.post('/add', function(req, res) {
     let newData = req.body;
     let newEntry = {
-        temperature: newData.temperature,
-        date: newData.date,
-        userResponse: newData.userResponse
+        latitude: newData.latitude,
+        longitude: newData.longitude,
+        countryCode: newData.countryCode
     };
+    console.log(newEntry);
     projectData.push(newEntry);
 });
