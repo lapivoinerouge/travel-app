@@ -41,7 +41,9 @@ app.post('/add', function(req, res) {
     let newEntry = {
         latitude: newData.latitude,
         longitude: newData.longitude,
-        photoUrl: newData.photoUrl
+        photoUrl: newData.photoUrl,
+        description: newData.description,
+        temperature: newData.temperature
     };
     console.log(newEntry);
     trips.push(newEntry);

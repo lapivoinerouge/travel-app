@@ -8,33 +8,51 @@ const pixabayKey = '16200588-f8290938e3f301deeb4dd349e';
 const pixabayCityQuery = '&q=';
 const pixabayOtherParams = '&image_type=photo';
 
+// weatherbit variables
+const currentWeatherbitUrl = 'http://api.weatherbit.io/v2.0/current?lat=';
+const predictWeatherbitUrl = 'http://api.weatherbit.io/v2.0/forecast/daily?lat=';
+const weatherbitKey = 'bc2fd4c237194e6dbd4558a10abee3e1';
+
+
 function performAction(event) {
     event.preventDefault();
 
     const city = document.getElementById('city').value;
+    const startDate = new Date(document.getElementById('date-from').value);
+    const endDate = new Date(document.getElementById('date-to').value);
 
-    getApiData(geoUrl, city, geoUser)
+    getApiData(geoUrl, city, geoUser, startDate, endDate)
     .then(function(data) {
-        postGeoData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, photoUrl: data.photoUrl})
+        postTripData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, photoUrl: data.photoUrl, description: data.description, temperature: data.temperature})
     })
     .then(function(data) {
-        getGeoData('http://localhost:8000/all')
+        getTripData('http://localhost:8000/all')
     });
 };
 
-// get data from geonames API
-async function getApiData(url, city, username) {
+// get data from clients
+async function getApiData(url, city, user, startDate, endDate) {
     try {
-        const res = await fetch(url+city+'&username='+username);
+        const res = await fetch(url+city+'&username='+user);
         
         const photoUrl = (await getPhoto(city)).url;
 
         const geoData = await res.json();
+        const lat = geoData.geonames[0].lat;
+        const lon = geoData.geonames[0].lng
+
+        const weather = getWeather(lat, lon, startDate, endDate);
+        const weatherDescription = (await weather).description;
+        const weatherTemperature = (await weather).temperature;
+        
         const data = {
-            latitude: geoData.geonames[0].lat,
-            longitude: geoData.geonames[0].lng,
-            photoUrl: photoUrl
+            latitude: lat,
+            longitude: lon,
+            photoUrl: photoUrl,
+            description: weatherDescription,
+            temperature: weatherTemperature
         }
+
         return data;
 
     } catch(error) {
@@ -42,8 +60,8 @@ async function getApiData(url, city, username) {
     }
 };
 
-// post geodata to server
-async function postGeoData(url = '', data = {}) {
+// post trip to server
+async function postTripData(url = '', data = {}) {
     const res = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
@@ -62,8 +80,8 @@ async function postGeoData(url = '', data = {}) {
     }
 };
 
-//get all geodata from server
-async function getGeoData(url = '') {
+//get all trips from server
+async function getTripData(url = '') {
     const res = await fetch(url);
     try {
         const resJson = await res.json();
@@ -75,13 +93,6 @@ async function getGeoData(url = '') {
         console.log('error', error);
     }
 };
-
-export { 
-    performAction,
-    getApiData,
-    postGeoData,
-    getGeoData
-}
 
 // get data from pixabay API
 async function getPhoto(city) {
@@ -101,3 +112,56 @@ async function getPhoto(city) {
         console.log("error", error);
     }
 };
+
+// get data from weatherbit
+async function getWeather(lat, lon, dateFrom, dateTo) {
+
+    const isValid = Client.validateDate(dateFrom, dateTo);
+
+    if(isValid) {
+        const isCurrent = Client.selectForecast(dateFrom);
+
+        if (isCurrent) {
+            try {
+                const res = await fetch(currentWeatherbitUrl+lat+'&lon='+lon+'&key='+weatherbitKey);
+
+                const weatherData = await res.json();
+                const data = {
+                    description: weatherData.data[0].weather.description,
+                    temperature: weatherData.data[0].temp
+                }
+                return data;
+        
+            } catch(error) {
+                console.log("error", error);
+            }
+        } else if (!isCurrent) {
+            try {
+                const res = await fetch(predictWeatherbitUrl+lat+'&lon='+lon+'&key='+weatherbitKey);
+
+                const weatherData = await res.json();
+                const data = {
+                    description: weatherData.data[-1].weather.description,
+                    temperature: weatherData.data[-1].temperature
+                }
+                return data;
+        
+            } catch(error) {
+                console.log("error", error);
+            }
+        } else {
+            console.log("wtf?!")
+        }
+    } else {
+        console.log("date is invalid");
+    }
+};
+
+export { 
+    performAction,
+    getApiData,
+    postTripData,
+    getTripData,
+    getPhoto,
+    getWeather
+}

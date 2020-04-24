@@ -1,20 +1,15 @@
-function selectForecast(dateFrom, dateTo) {
-
-    const isValid = Client.validateDate(dateFrom, dateTo);
+function selectForecast(dateFrom) {
     
-    if (isValid) {
-        const today = new Date();
-        const timeToTrip = Math.abs(dateFrom - today);
-        const daysToTrip = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const today = new Date();
+    const timeToTrip = Math.abs(dateFrom - today);
+    const daysToTrip = Math.ceil(timeToTrip / (1000 * 60 * 60 * 24));
 
-        if (daysToTrip <= 7) {
-            console.log("current forecast");
-            return "current";
-        } else {
-            return "predict";
-        }
+    if (daysToTrip <= 7) {
+        console.log("current forecast");
+        return true;
     } else {
-        return "";
+        console.log("predict forecast");
+        return false;
     }
 }
 
