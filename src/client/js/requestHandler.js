@@ -8,8 +8,6 @@ const pixabayKey = '16200588-f8290938e3f301deeb4dd349e';
 const pixabayCityQuery = '&q=';
 const pixabayOtherParams = '&image_type=photo';
 
-//const tripDate = document.getElementById("trip-date").value;
-
 function performAction(event) {
     event.preventDefault();
 
@@ -85,7 +83,7 @@ export {
     getGeoData
 }
 
-// get data from geonames API
+// get data from pixabay API
 async function getPhoto(city) {
 
     const pixaCity = city.toLowerCase();
