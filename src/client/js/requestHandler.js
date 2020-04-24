@@ -23,7 +23,7 @@ function performAction(event) {
 
     getApiData(geoUrl, city, geoUser, startDate, endDate)
     .then(function(data) {
-        postTripData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, photoUrl: data.photoUrl, description: data.description, temperature: data.temperature})
+        postTripData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, start: data.start, end: data.end, city: data.city, country: data.country,photoUrl: data.photoUrl, description: data.description, temperature: data.temperature})
     })
     .then(function(data) {
         getTripData('http://localhost:8000/all')
@@ -39,7 +39,8 @@ async function getApiData(url, city, user, startDate, endDate) {
 
         const geoData = await res.json();
         const lat = geoData.geonames[0].lat;
-        const lon = geoData.geonames[0].lng
+        const lon = geoData.geonames[0].lng;
+        const country = geoData.geonames[0].countryName;
 
         const weather = getWeather(lat, lon, startDate, endDate);
         const weatherDescription = (await weather).description;
@@ -48,6 +49,10 @@ async function getApiData(url, city, user, startDate, endDate) {
         const data = {
             latitude: lat,
             longitude: lon,
+            start: startDate,
+            end: endDate,
+            city: city,
+            country: country,
             photoUrl: photoUrl,
             description: weatherDescription,
             temperature: weatherTemperature
@@ -85,10 +90,78 @@ async function getTripData(url = '') {
     const res = await fetch(url);
     try {
         const resJson = await res.json();
-    
-        document.getElementById('temp').innerHTML = resJson[resJson.length-1].latitude;
-        document.getElementById('date').innerHTML = resJson[resJson.length-1].longitude
+        const lastEntry = resJson[resJson.length-1];
 
+        const fromDate = new Date(document.getElementById('date-from').value);
+        const daysAmount = countDays(fromDate);
+
+        function formatDate(date) {
+            let day = "" + date.getDate();
+            let month = "" + (date.getMonth()+1);
+            let year = "" + date.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [day, month, year].join('/');
+        }
+
+        function countDays(date) {
+            const today = new Date();
+            const then = date;
+
+            const timeToTrip = Math.abs(then - today);
+            const daysToTrip = Math.ceil(timeToTrip / (1000 * 60 * 60 * 24));
+            return daysToTrip;
+        }
+
+        let trip = document.createElement("div");
+        trip.classList.add('trip');
+        document.getElementById('trip-container').appendChild(trip);
+
+        let tripHeader = document.createElement("div");
+        tripHeader.classList.add('trip-header');
+        trip.appendChild(tripHeader);
+        
+        let destination = document.createElement("p");
+        destination.classList.add('trip-title');
+        destination.innerHTML = "My trip to: " + lastEntry.city + ", " + lastEntry.country;
+        tripHeader.appendChild(destination);
+
+        let time = document.createElement("p");
+        time.classList.add('trip-title');
+        time.innerHTML = "Departing: " + formatDate(fromDate);
+        tripHeader.appendChild(time);
+
+        let remove = document.createElement("button");
+        remove.classList.add('remove');
+        remove.innerHTML = "X";
+        tripHeader.appendChild(remove);
+
+        let howLong = document.createElement("p");
+        howLong.classList.add('trip-details');
+        howLong.innerHTML = lastEntry.city + ", " + lastEntry.country + " is " + daysAmount + " days away";
+        trip.appendChild(howLong);
+
+        let weather = document.createElement("p");
+        weather.classList.add('trip-details');
+        weather.innerHTML = "Typical weather for then is: " + lastEntry.description + ", temp: " + lastEntry.temperature;
+        trip.appendChild(weather);
+
+        let photo = document.createElement("img");
+        photo.classList.add('trip-photo');
+        photo.src = lastEntry.photoUrl;
+        photo.setAttribute('style', 'width: 40vw; height: auto;')
+        trip.appendChild(photo);
+
+        let stars = document.createElement("p");
+        stars.classList.add('trip-details-end');
+        stars.innerHTML = "* * *";
+        trip.appendChild(stars);
+        
+    
     } catch(error) {
         console.log('error', error);
     }
@@ -135,23 +208,21 @@ async function getWeather(lat, lon, dateFrom, dateTo) {
             } catch(error) {
                 console.log("error", error);
             }
-        } else if (!isCurrent) {
+        } else {
             try {
                 const res = await fetch(predictWeatherbitUrl+lat+'&lon='+lon+'&key='+weatherbitKey);
 
                 const weatherData = await res.json();
                 const data = {
-                    description: weatherData.data[-1].weather.description,
-                    temperature: weatherData.data[-1].temperature
+                    description: weatherData.data[15].weather.description,
+                    temperature: weatherData.data[15].temp
                 }
                 return data;
         
             } catch(error) {
                 console.log("error", error);
             }
-        } else {
-            console.log("wtf?!")
-        }
+        } 
     } else {
         console.log("date is invalid");
     }

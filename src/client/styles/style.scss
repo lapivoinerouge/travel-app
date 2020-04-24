@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap');
+
 body{
     background: #71CACE;
     background-size: 40em;
@@ -6,103 +8,88 @@ body{
     background-position-y: 100px;
     background-image: url(../media/holiday.jpg);
     // for now
-    height: 300vh;
+    height: auto;
 }
 
-#form-container {
+#content-container {
+    margin-left: 50vw;
+    margin-top: 5vh;
     width: 45vw;
-    margin-left: 49vw;
-    margin-top: 50px;
+    height: 80vh;
     display: grid;
-    grid-template-rows: 30px 50px;
-    grid-gap: 10px;
+    grid-template-columns: 45vw;
+    grid-template-rows: 200px auto;
     grid-template-areas:
-    "tl tm1 tm2 tr"
-    "bl bm1 bm2 br";
-}
+    "form"
+    "results";
 
-label {
-    font-family: 'Shadows Into Light', cursive;
-    font-size: 25px;
-    color: #F15757;
-
-    &#city-label {
-        grid-area: tl;
+    #form-container {
+        grid-area: form;
+        display: grid;
+        grid-template-rows: 30px 50px;
+        grid-gap: 10px;
+        grid-template-areas:
+        "tl tm1 tm2 tr"
+        "bl bm1 bm2 br";
     }
-
-    &#date-from {
-        grid-area: tm1;
+    
+    label {
+        font-family: 'Leckerli One', cursive;
+        font-size: 25px;
+        color: #F15757;
+    
+        &#city-label {
+            grid-area: tl;
+        }
+    
+        &#date-from-label {
+            grid-area: tm1;
+        }
+    
+        &#date-to-label {
+            grid-area: tm2;
+        }
     }
-
-    &#date-to {
-        grid-area: tm2;
+    
+    input {
+        height: 40px;
+        width: 160px;
+        background: #fff;
+        color: rgb(44, 42, 42);
+        font-family: 'Coming Soon', cursive;
+        font-size: 20px;
+        padding: 5px;
+        border: 0;
+    
+        &#city {
+            grid-area: bl;
+            width: 120px;
+        }
+    
+        &#date-from {
+            grid-area: bm1;
+        }
+    
+        &#date-to {
+            grid-area: bm2;
+        }
     }
-}
-
-input {
-    height: 40px;
-    width: 150px;
-    background: #fff;
-    color: #f0d43a;
-    font-family: 'Shadows Into Light', cursive;
-    font-size: 25px;
-    padding: 5px;
-    border: 0;
-
-    &#city {
-        grid-area: bl;
+    
+    #generate {
+        grid-area: br;
+        height: 40px;
+        margin-left: 0;
+        margin-top: 8px;
+        opacity: 1;
+    
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
     }
-
-    &#date-from {
-        grid-area: bm1;
-    }
-
-    &#date-to {
-        grid-area: bm2;
-    }
+    
+    ::placeholder { /* Firefox, Chrome, Opera */ 
+        font-family: 'Coming Soon', cursive;
+        color: rgb(44, 42, 42);
+    } 
 }
-
-#generate {
-    grid-area: br;
-    height: 40px;
-    margin-left: 0;
-    margin-top: 8px;
-    opacity: 1;
-
-    &:hover {
-        opacity: 0.8;
-        cursor: pointer;
-    }
-}
-
-::placeholder { /* Firefox, Chrome, Opera */ 
-    font-family: 'Shadows Into Light', cursive;
-    color: #f0d43a;
-} 
-
-
-//RESULTS for tests
-#results {
-    position: fixed;
-    top: 200px;
-    left: 40px;
-}
-
-#date{
-    font-size: 15px;
-    padding: 10px;
-    background-color:green;
-}
-
-#temp{
-    font-size: 15px;
-    padding: 10px;
-    background-color:yellow;
-}
-
-#content{
-    font-size: 15px;
-    padding: 10px;
-    background-color:red;
-}
-//END OF RESULTS

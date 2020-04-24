@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="./styles/style.scss">
   <link rel="stylesheet" href="./styles/header.scss">
   <link rel="stylesheet" href="./styles/footer.scss">
+  <link rel="stylesheet" href="./styles/results.scss">
 </head>
 
 <body>
@@ -25,14 +26,22 @@
       <img src="../../../dist/3c3423d1896bddee963f8bd4cd293662.png" id="generate">
     </div>
 
-      <div id="results">
-        <div class="title">RESULTS:</div>
-        <div id="entryholder">
-          <div id="date"></div> 
-          <div id="temp"></div>
-          <div id="content"></div>
+    <div id="results">
+      <div class="title">my trips:</div>
+      <div id="trip-container">
+        <div class="trip">
+          <div class="trip-header">
+            <p class="trip-title">My trip to Wro</p>
+            <p class="trip-title">Departing: 11/05/2020</p>
+            <button class="remove">X</button>
+          </div>
+          <p class="trip-details">Wro is in 365 days</p>
+          <p class="trip-details">Typical weather for then is: cloudy, temperature: 20.7</p>
+          <img src="https://pixabay.com/get/53e0d3414951af14f6da8c7dda793678173fdee05b596c4870277cd39444c750bd_1280.jpg" class="trip-photo">
+          <p class="trip-details-end">* * *</p>
         </div>
       </div>
+    </div>
   </div>
 
 <footer id="footer">

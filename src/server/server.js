@@ -41,6 +41,10 @@ app.post('/add', function(req, res) {
     let newEntry = {
         latitude: newData.latitude,
         longitude: newData.longitude,
+        start: newData.start,
+        end: newData.end,
+        city: newData.city,
+        country: newData.country,
         photoUrl: newData.photoUrl,
         description: newData.description,
         temperature: newData.temperature

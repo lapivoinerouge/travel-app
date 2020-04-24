@@ -13,6 +13,7 @@ import { validateDate } from "./js/dateValidator"
 import './styles/style.scss'
 import './styles/header.scss'
 import './styles/footer.scss'
+import './styles/results.scss'
 
 import './media/holiday.jpg'
 import './media/save-button.png'

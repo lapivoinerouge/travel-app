@@ -1,0 +1,60 @@
+#results {
+    grid-area: results;
+    font-family: 'Leckerli One', cursive;
+    font-size: 25px;
+    color: #F15757;
+
+    #trip-container {
+        background: #fff;
+        font-family: 'Coming Soon', cursive;
+        color: rgb(44, 42, 42);
+        padding: 20px;
+        height: auto;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .trip {
+        display: flex;
+        flex-direction: column;
+
+        .trip-header {
+            grid-area: hd;
+            display: grid;
+            grid-template-columns: 90% 20%;
+            grid-template-areas:
+            "tt rm"
+            "tt nt";
+
+            .trip-title {
+                margin:0;
+                font-weight: bold;
+                font-size: 1.5em;
+                grid-area: tt tt;
+            }
+    
+            .remove {
+                grid-area: rm;
+                font-family: 'Coming Soon', cursive;
+                font-size: 1em;
+                font-weight: bold;
+                height: 50px;
+                width: 50px;
+                color: rgb(44, 42, 42);
+                border: none;
+            }
+        }
+
+        .trip-details-end {
+            margin-left: 45%;
+            grid-area: dt;
+        }
+
+        .trip-photo {
+            width: 40vw; 
+            height: auto;
+            grid-area: ph;
+        }
+    }
+}
+
