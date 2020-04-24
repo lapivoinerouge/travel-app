@@ -1,14 +1,15 @@
 import { init } from "./js/app"
-
-import { performAction } from "./js/requestHandler"
+import { submitTrip } from "./js/requestHandler"
 import { getApiData } from "./js/requestHandler"
-import { getPhoto } from "./js/requestHandler"
-import { getWeather } from "./js/requestHandler"
 import { postTripData } from "./js/requestHandler"
 import { getTripData } from "./js/requestHandler"
-
+import { getPhoto } from "./js/photoFinder"
+import { getWeather } from "./js/forecastSelector"
 import { selectForecast } from "./js/forecastSelector"
-import { validateDate } from "./js/dateValidator"
+import { validateDate } from "./js/dateProcessor"
+import { countDays } from "./js/dateProcessor"
+import { formatDate } from "./js/dateProcessor"
+import { createNewTrip } from "./js/requestHandler"
 
 import './styles/style.scss'
 import './styles/header.scss'
@@ -21,13 +22,16 @@ import './media/save-button.png'
 window.addEventListener('DOMContentLoaded', init);
 
 export {
-    performAction,
+    init,
+    submitTrip,
     getApiData,
     getPhoto,
     getWeather,
     postTripData,
     getTripData,
-    init,
+    createNewTrip, 
     selectForecast,
-    validateDate
+    validateDate,
+    countDays,
+    formatDate
 }
