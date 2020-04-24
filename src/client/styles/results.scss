@@ -2,6 +2,7 @@
     grid-area: results;
     font-family: 'Leckerli One', cursive;
     font-size: 25px;
+    margin-top: -70px;
     color: #F15757;
 
     #trip-container {
@@ -29,7 +30,7 @@
             .trip-title {
                 margin:0;
                 font-weight: bold;
-                font-size: 1.5em;
+                font-size: 27px;
                 grid-area: tt tt;
             }
     
@@ -48,6 +49,10 @@
                     cursor: pointer;
                 }
             }
+        }
+        .trip-details {
+            font-size: 20px;
+            margin: 5px;
         }
 
         .trip-details-end {

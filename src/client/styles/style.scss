@@ -120,6 +120,7 @@ body{
             grid-area: bb;
             height: 40px;
             margin: auto;
+            margin-top: 5px;
             opacity: 1;
         }
 
@@ -139,12 +140,12 @@ body{
                 .trip-header {
         
                     .trip-title {
-                        font-size: 20px;
+                        font-size: 17px;
                     }
                 }
 
                 .trip-details {
-                    font-size: 17px;
+                    font-size: 15px;
                 }
         
                 .trip-photo {
@@ -173,17 +174,24 @@ body{
             "tl tm1 tm2"
             "bl bm1 bm2"
             "bb bb bb";
+
+            input {
+                font-size: 15px;
+            }
+
         }
         
         label {
-            font-size: 25px;
+            font-size: 23px;
         }
         
         #generate {
             grid-area: bb;
             height: 40px;
             margin: auto;
+            margin-top: 5px;
             opacity: 1;
+        
         
             &:hover {
                 opacity: 0.8;
