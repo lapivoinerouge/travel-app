@@ -53,4 +53,4 @@ app.post('/add', function(req, res) {
     trips.push(newEntry);
 });
 
-export { app }
+module.exports = app
