@@ -40,7 +40,8 @@ app.post('/add', function(req, res) {
     let newData = req.body;
     let newEntry = {
         latitude: newData.latitude,
-        longitude: newData.longitude
+        longitude: newData.longitude,
+        photoUrl: newData.photoUrl
     };
     console.log(newEntry);
     trips.push(newEntry);

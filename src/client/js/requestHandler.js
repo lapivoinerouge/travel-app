@@ -1,6 +1,12 @@
-/* Global Variables */
-let geoUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
-let geoUser = 'lapivoinerouge';
+// geonames variables
+const geoUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
+const geoUser = 'lapivoinerouge';
+
+// pixabay variables
+const pixabayUrl = 'https://pixabay.com/api/?key=';
+const pixabayKey = '16200588-f8290938e3f301deeb4dd349e';
+const pixabayCityQuery = '&q=';
+const pixabayOtherParams = '&image_type=photo';
 
 //const tripDate = document.getElementById("trip-date").value;
 
@@ -11,7 +17,7 @@ function performAction(event) {
 
     getApiData(geoUrl, city, geoUser)
     .then(function(data) {
-        postGeoData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude})
+        postGeoData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, photoUrl: data.photoUrl})
     })
     .then(function(data) {
         getGeoData('http://localhost:8000/all')
@@ -23,10 +29,13 @@ async function getApiData(url, city, username) {
     try {
         const res = await fetch(url+city+'&username='+username);
         
+        const photoUrl = (await getPhoto(city)).url;
+
         const geoData = await res.json();
         const data = {
             latitude: geoData.geonames[0].lat,
-            longitude: geoData.geonames[0].lng
+            longitude: geoData.geonames[0].lng,
+            photoUrl: photoUrl
         }
         return data;
 
@@ -75,3 +84,22 @@ export {
     postGeoData,
     getGeoData
 }
+
+// get data from geonames API
+async function getPhoto(city) {
+
+    const pixaCity = city.toLowerCase();
+
+    try {
+        const res = await fetch(pixabayUrl+pixabayKey+pixabayCityQuery+pixaCity+pixabayOtherParams);
+        
+        const pixaData = await res.json();
+        const data = {
+            url: pixaData.hits[0].largeImageURL
+        }
+        return data;
+
+    } catch(error) {
+        console.log("error", error);
+    }
+};
