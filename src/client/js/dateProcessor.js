@@ -5,9 +5,6 @@ function validateDate(dateFrom, dateTo) {
     if (dateFrom.getTime() > dateTo.getTime()) {
         alert("The trip can't end before it begins!");
         return false;
-    } else if (dateFrom.getTime() < today.getTime()) {
-        alert("You can't plan your trip in the past!");
-        return false;
     } else {
         return true;
     }
@@ -32,7 +29,7 @@ function formatDate(date) {
     if (day.length < 2) 
         day = '0' + day;
 
-    return [day, month, year].join('/');
+    return [year, month, day].join("-");
 }
 
 export { 

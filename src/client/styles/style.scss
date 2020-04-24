@@ -16,6 +16,7 @@ body{
     width: 45vw;
     height: 80vh;
     display: grid;
+    overflow: visible;
     grid-template-columns: 45vw;
     grid-template-rows: 200px auto;
     grid-template-areas:
@@ -87,8 +88,5 @@ body{
         }
     }
     
-    ::placeholder { /* Firefox, Chrome, Opera */ 
-        font-family: 'Coming Soon', cursive;
-        color: rgb(44, 42, 42);
-    } 
+    
 }

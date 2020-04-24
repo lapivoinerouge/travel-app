@@ -93,7 +93,7 @@ async function getTripData(url = '') {
 };
 
 function createNewTrip(lastEntry) {
-    const fromDate = new Date(document.getElementById('date-from').value);
+        const fromDate = new Date(document.getElementById('date-from').value);
         const daysAmount = Client.countDays(fromDate);
 
         let trip = document.createElement("div");
@@ -142,7 +142,7 @@ function createNewTrip(lastEntry) {
         stars.classList.add('trip-details-end');
         stars.innerHTML = "* * *";
         trip.appendChild(stars);
-}
+};
 
 export { 
     submitTrip,
