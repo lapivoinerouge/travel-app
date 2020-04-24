@@ -87,6 +87,130 @@ body{
             cursor: pointer;
         }
     }
+}
+
+// for tablet
+@media(min-width: 650px) and (max-width: 1100px) {
+
+    #content-container {
+        margin-left: 30vw;
+        width: 60vw;
     
+        #form-container {
+            grid-area: form;
+            margin-left: -100px;
+            display: grid;
+            grid-template-rows: 30px 50px;
+            grid-gap: 10px;
+            grid-template-areas:
+            "tl tm1 tm2"
+            "bl bm1 bm2"
+            "bb bb bb";
+        }
+        
+        label {
+            font-size: 25px;
+        }
+        
+        input {
+            font-size: 18px;
+        }
+        
+        #generate {
+            grid-area: bb;
+            height: 40px;
+            margin: auto;
+            opacity: 1;
+        }
+
+        #results {
+            font-size: 25px;
+
+            .title {
+                margin-left: -100px;
+            }
+
+            #trip-container {
+                margin-left: -100px;
+            }
+        
+            .trip {
+        
+                .trip-header {
+        
+                    .trip-title {
+                        font-size: 20px;
+                    }
+                }
+
+                .trip-details {
+                    font-size: 17px;
+                }
+        
+                .trip-photo {
+                    min-width: 50vw; 
+                    height: auto;
+                    grid-area: ph;
+                }
+            }
+        }
+    }
+}
+
+// for mobile
+@media(max-width: 650px) {
+    #content-container {
+        margin-left: 30vw;
+        width: 60vw;
     
+        #form-container {
+            grid-area: form;
+            margin-left: -100px;
+            display: grid;
+            grid-template-rows: 30px 50px;
+            grid-gap: 10px;
+            grid-template-areas:
+            "tl tm1 tm2"
+            "bl bm1 bm2"
+            "bb bb bb";
+        }
+        
+        label {
+            font-size: 25px;
+        }
+        
+        #generate {
+            grid-area: bb;
+            height: 40px;
+            margin: auto;
+            opacity: 1;
+        
+            &:hover {
+                opacity: 0.8;
+                cursor: pointer;
+            }
+        }
+
+        #results {
+            grid-area: results;
+            font-size: 25px;
+
+            .title {
+                margin-left: -100px;
+            }
+
+            #trip-container {
+                margin-left: -100px;
+            }
+        
+            .trip {
+                display: flex;
+                flex-direction: column;
+
+                .trip-details {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
 }
