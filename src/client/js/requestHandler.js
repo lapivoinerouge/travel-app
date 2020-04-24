@@ -2,50 +2,45 @@
 const geoUrl = 'http://api.geonames.org/searchJSON?formatted=true&q=';
 const geoUser = 'lapivoinerouge';
 
-// pixabay variables
-const pixabayUrl = 'https://pixabay.com/api/?key=';
-const pixabayKey = '16200588-f8290938e3f301deeb4dd349e';
-const pixabayCityQuery = '&q=';
-const pixabayOtherParams = '&image_type=photo';
-
-// weatherbit variables
-const currentWeatherbitUrl = 'http://api.weatherbit.io/v2.0/current?lat=';
-const predictWeatherbitUrl = 'http://api.weatherbit.io/v2.0/forecast/daily?lat=';
-const weatherbitKey = 'bc2fd4c237194e6dbd4558a10abee3e1';
-
-
-function performAction(event) {
+function submitTrip(event) {
     event.preventDefault();
 
     const city = document.getElementById('city').value;
     const startDate = new Date(document.getElementById('date-from').value);
     const endDate = new Date(document.getElementById('date-to').value);
 
-    getApiData(geoUrl, city, geoUser, startDate, endDate)
-    .then(function(data) {
+    const isValid = Client.validateDate(startDate, endDate);
+
+    if(isValid) {
+        getApiData(geoUrl, city, geoUser, startDate, endDate)
+        .then(function(data) {
         postTripData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, start: data.start, end: data.end, city: data.city, country: data.country,photoUrl: data.photoUrl, description: data.description, temperature: data.temperature})
-    })
-    .then(function(data) {
+        })
+        .then(function(data) {
         getTripData('http://localhost:8000/all')
-    });
+        });
+    }
 };
 
 // get data from clients
 async function getApiData(url, city, user, startDate, endDate) {
     try {
+        //geonames
         const res = await fetch(url+city+'&username='+user);
-        
-        const photoUrl = (await getPhoto(city)).url;
-
         const geoData = await res.json();
         const lat = geoData.geonames[0].lat;
         const lon = geoData.geonames[0].lng;
         const country = geoData.geonames[0].countryName;
-
-        const weather = getWeather(lat, lon, startDate, endDate);
-        const weatherDescription = (await weather).description;
-        const weatherTemperature = (await weather).temperature;
         
+        //pixabay
+        const photoUrl = (await Client.getPhoto(city)).url;
+
+        //weatherbit
+        const weather = Client.getWeather(lat, lon, startDate, endDate);
+        const description = (await weather).description;
+        const temperature = (await weather).temperature;
+        
+        //create complex trip data
         const data = {
             latitude: lat,
             longitude: lon,
@@ -54,10 +49,9 @@ async function getApiData(url, city, user, startDate, endDate) {
             city: city,
             country: country,
             photoUrl: photoUrl,
-            description: weatherDescription,
-            temperature: weatherTemperature
+            description: description,
+            temperature: temperature
         }
-
         return data;
 
     } catch(error) {
@@ -85,37 +79,22 @@ async function postTripData(url = '', data = {}) {
     }
 };
 
-//get all trips from server
+//get last trip from server
 async function getTripData(url = '') {
     const res = await fetch(url);
     try {
         const resJson = await res.json();
         const lastEntry = resJson[resJson.length-1];
+        createNewTrip(lastEntry);
 
-        const fromDate = new Date(document.getElementById('date-from').value);
-        const daysAmount = countDays(fromDate);
+    } catch(error) {
+        console.log('error', error);
+    }
+};
 
-        function formatDate(date) {
-            let day = "" + date.getDate();
-            let month = "" + (date.getMonth()+1);
-            let year = "" + date.getFullYear();
-
-            if (month.length < 2) 
-                month = '0' + month;
-            if (day.length < 2) 
-                day = '0' + day;
-
-            return [day, month, year].join('/');
-        }
-
-        function countDays(date) {
-            const today = new Date();
-            const then = date;
-
-            const timeToTrip = Math.abs(then - today);
-            const daysToTrip = Math.ceil(timeToTrip / (1000 * 60 * 60 * 24));
-            return daysToTrip;
-        }
+function createNewTrip(lastEntry) {
+    const fromDate = new Date(document.getElementById('date-from').value);
+        const daysAmount = Client.countDays(fromDate);
 
         let trip = document.createElement("div");
         trip.classList.add('trip');
@@ -132,7 +111,7 @@ async function getTripData(url = '') {
 
         let time = document.createElement("p");
         time.classList.add('trip-title');
-        time.innerHTML = "Departing: " + formatDate(fromDate);
+        time.innerHTML = "Departing: " + Client.formatDate(fromDate);
         tripHeader.appendChild(time);
 
         let remove = document.createElement("button");
@@ -145,7 +124,7 @@ async function getTripData(url = '') {
 
         let howLong = document.createElement("p");
         howLong.classList.add('trip-details');
-        howLong.innerHTML = lastEntry.city + ", " + lastEntry.country + " is " + daysAmount + " days away";
+        howLong.innerHTML = "* " + lastEntry.city + ", " + lastEntry.country + " is " + daysAmount + " days away";
         trip.appendChild(howLong);
 
         let weather = document.createElement("p");
@@ -163,79 +142,12 @@ async function getTripData(url = '') {
         stars.classList.add('trip-details-end');
         stars.innerHTML = "* * *";
         trip.appendChild(stars);
-        
-    
-    } catch(error) {
-        console.log('error', error);
-    }
-};
-
-// get data from pixabay API
-async function getPhoto(city) {
-
-    const pixaCity = city.toLowerCase();
-
-    try {
-        const res = await fetch(pixabayUrl+pixabayKey+pixabayCityQuery+pixaCity+pixabayOtherParams);
-        
-        const pixaData = await res.json();
-        const data = {
-            url: pixaData.hits[0].largeImageURL
-        }
-        return data;
-
-    } catch(error) {
-        console.log("error", error);
-    }
-};
-
-// get data from weatherbit
-async function getWeather(lat, lon, dateFrom, dateTo) {
-
-    const isValid = Client.validateDate(dateFrom, dateTo);
-
-    if(isValid) {
-        const isCurrent = Client.selectForecast(dateFrom);
-
-        if (isCurrent) {
-            try {
-                const res = await fetch(currentWeatherbitUrl+lat+'&lon='+lon+'&key='+weatherbitKey);
-
-                const weatherData = await res.json();
-                const data = {
-                    description: weatherData.data[0].weather.description,
-                    temperature: weatherData.data[0].temp
-                }
-                return data;
-        
-            } catch(error) {
-                console.log("error", error);
-            }
-        } else {
-            try {
-                const res = await fetch(predictWeatherbitUrl+lat+'&lon='+lon+'&key='+weatherbitKey);
-
-                const weatherData = await res.json();
-                const data = {
-                    description: weatherData.data[15].weather.description,
-                    temperature: weatherData.data[15].temp
-                }
-                return data;
-        
-            } catch(error) {
-                console.log("error", error);
-            }
-        } 
-    } else {
-        console.log("date is invalid");
-    }
-};
+}
 
 export { 
-    performAction,
+    submitTrip,
     getApiData,
     postTripData,
     getTripData,
-    getPhoto,
-    getWeather
+    createNewTrip
 }

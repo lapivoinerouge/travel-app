@@ -1,5 +1,5 @@
 function init() {
-    document.getElementById("generate").addEventListener("click", Client.performAction);
+    document.getElementById("generate").addEventListener("click", Client.submitTrip);
 }
 
 export { 
