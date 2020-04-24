@@ -138,6 +138,9 @@ async function getTripData(url = '') {
         let remove = document.createElement("button");
         remove.classList.add('remove');
         remove.innerHTML = "X";
+        remove.addEventListener("click", function(e) {
+            trip.setAttribute('style', 'display: none;');
+        })
         tripHeader.appendChild(remove);
 
         let howLong = document.createElement("p");
@@ -147,7 +150,7 @@ async function getTripData(url = '') {
 
         let weather = document.createElement("p");
         weather.classList.add('trip-details');
-        weather.innerHTML = "Typical weather for then is: " + lastEntry.description + ", temp: " + lastEntry.temperature;
+        weather.innerHTML = "Typical weather for then is: " + lastEntry.description + ", temperature: " + lastEntry.temperature;
         trip.appendChild(weather);
 
         let photo = document.createElement("img");
