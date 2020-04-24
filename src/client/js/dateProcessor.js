@@ -1,6 +1,5 @@
+// checks if the start date is not after the end date
 function validateDate(dateFrom, dateTo) {
-
-    const today = new Date();
 
     if (dateFrom.getTime() > dateTo.getTime()) {
         alert("The trip can't end before it begins!");
@@ -10,6 +9,7 @@ function validateDate(dateFrom, dateTo) {
     }
 }
 
+// counts days to the trip
 function countDays(date) {
     const today = new Date();
     const then = date;
@@ -19,6 +19,7 @@ function countDays(date) {
     return daysToTrip;
 }
 
+// returns formatted date
 function formatDate(date) {
     let day = "" + date.getDate();
     let month = "" + (date.getMonth()+1);

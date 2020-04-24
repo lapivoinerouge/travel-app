@@ -52,3 +52,5 @@ app.post('/add', function(req, res) {
     console.log(newEntry);
     trips.push(newEntry);
 });
+
+export { app }

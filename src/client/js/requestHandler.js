@@ -92,6 +92,7 @@ async function getTripData(url = '') {
     }
 };
 
+// updates UI with created trip
 function createNewTrip(lastEntry) {
         const fromDate = new Date(document.getElementById('date-from').value);
         const daysAmount = Client.countDays(fromDate);
