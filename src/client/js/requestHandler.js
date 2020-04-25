@@ -11,7 +11,7 @@ function submitTrip(event) {
 
     const isValid = Client.validateDate(startDate, endDate);
 
-    if(isValid) {
+    if(isValid && city !== "") {
         getApiData(geoUrl, city, geoUser, startDate, endDate)
         .then(function(data) {
         postTripData('http://localhost:8000/add', {latitude: data.latitude, longitude: data.longitude, start: data.start, end: data.end, city: data.city, country: data.country,photoUrl: data.photoUrl, description: data.description, temperature: data.temperature})
